@@ -19,6 +19,16 @@ interface ProjectCardProps {
   onToggle: () => void
 }
 
+function renderInlineBold(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g)
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+      return <strong key={index}>{part.slice(2, -2)}</strong>
+    }
+    return part
+  })
+}
+
 export default function ProjectCard({ project, isExpanded, onToggle }: ProjectCardProps) {
   const Icon = {
     rocket: Rocket,
@@ -100,7 +110,7 @@ export default function ProjectCard({ project, isExpanded, onToggle }: ProjectCa
                   <div key={idx} className="space-y-2">
                     {items.map((item, i) => (
                       <div key={i} className="text-text-secondary leading-relaxed">
-                        {item}
+                        {renderInlineBold(item)}
                       </div>
                     ))}
                   </div>
@@ -113,7 +123,7 @@ export default function ProjectCard({ project, isExpanded, onToggle }: ProjectCa
                   <ul key={idx} className="list-disc list-inside space-y-2">
                     {items.map((item, i) => (
                       <li key={i} className="text-text-secondary">
-                        {item.replace(/^-\s*/, '')}
+                        {renderInlineBold(item.replace(/^-\s*/, ''))}
                       </li>
                     ))}
                   </ul>
@@ -123,7 +133,7 @@ export default function ProjectCard({ project, isExpanded, onToggle }: ProjectCa
               if (paragraph.trim()) {
                 return (
                   <p key={idx} className="text-text-secondary leading-relaxed">
-                    {paragraph}
+                    {renderInlineBold(paragraph)}
                   </p>
                 )
               }

@@ -123,7 +123,11 @@ const acronymMap = new Map([
 
 function readRegistry(filePath) {
   if (!fs.existsSync(filePath)) {
-    throw new Error(`Project registry not found: ${filePath}`)
+    throw new Error(
+      `Project registry not found: ${filePath}\n` +
+        `Pass a registry path via PROJECTS_REGISTRY=/path/to/PROJECTS.md or CLI arg.\n` +
+        `(Standard builds do not need this script; data/projectAtlas.ts is already committed.)`
+    )
   }
 
   const bytes = fs.readFileSync(filePath)

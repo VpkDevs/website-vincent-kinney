@@ -1,12 +1,58 @@
+import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import sharp from 'sharp'
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url))
 const projectRoot = path.resolve(scriptDir, '..')
 const source = path.join(projectRoot, 'public', 'og-atlas-background.png')
 const output = path.join(projectRoot, 'public', 'og-card.png')
+const atlasPath = path.join(projectRoot, 'data', 'projectAtlas.ts')
 
+const displayUrl = (process.env.OG_DISPLAY_URL || 'vpkdevs.github.io/website-vincent-kinney')
+  .replace(/^https?:\/\//, '')
+  .replace(/\/+$/, '')
+
+function escapeXml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+}
+
+function readAtlasMetrics() {
+  const raw = fs.readFileSync(atlasPath, 'utf8')
+  const match = raw.match(/export const projectAtlas = (\[[\s\S]*?\]) satisfies ProjectAtlasItem\[\]/)
+  if (!match) {
+    throw new Error(`Could not parse projectAtlas array from ${atlasPath}`)
+  }
+  const items = JSON.parse(match[1])
+  const publicRepos = items.filter((item) => item.status === 'Public repo').length
+  const lanes = new Set(items.map((item) => item.category)).size
+  return {
+    total: items.length,
+    publicRepos,
+    lanes,
+  }
+}
+
+let sharp
+try {
+  const mod = await import('sharp')
+  sharp = mod.default
+} catch (error) {
+  const detail = error instanceof Error ? error.message : String(error)
+  console.error(
+    `Cannot run render-og-card on ${process.platform}/${process.arch}: sharp native bindings could not load.\n` +
+      `Run \`npm run generate:og\` on Linux, macOS, or Windows (or CI) to regenerate public/og-card.png.\n` +
+      `Existing public/og-card.png remains committed and usable for builds.\n\n` +
+      `Original error: ${detail}`
+  )
+  process.exit(1)
+}
+
+const { total, publicRepos, lanes } = readAtlasMetrics()
 const width = 1200
 const height = 630
 
@@ -41,16 +87,16 @@ const overlay = Buffer.from(`
     </text>
 
     <g transform="translate(62 478)">
-      <text x="0" y="0" fill="#f6c453" font-family="Georgia, Times New Roman, serif" font-size="42" font-weight="700">131</text>
-      <text x="88" y="0" fill="#f6c453" font-family="Georgia, Times New Roman, serif" font-size="42" font-weight="700">98</text>
-      <text x="166" y="0" fill="#f6c453" font-family="Georgia, Times New Roman, serif" font-size="42" font-weight="700">9</text>
+      <text x="0" y="0" fill="#f6c453" font-family="Georgia, Times New Roman, serif" font-size="42" font-weight="700">${total}</text>
+      <text x="165" y="0" fill="#f6c453" font-family="Georgia, Times New Roman, serif" font-size="42" font-weight="700">${publicRepos}</text>
+      <text x="292" y="0" fill="#f6c453" font-family="Georgia, Times New Roman, serif" font-size="42" font-weight="700">${lanes}</text>
       <text x="0" y="31" fill="#bdb3a1" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">PROJECT DOSSIERS</text>
       <text x="165" y="31" fill="#bdb3a1" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">PUBLIC REPOS</text>
       <text x="292" y="31" fill="#bdb3a1" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">PRODUCT LANES</text>
     </g>
 
     <text x="62" y="584" fill="#64d2ff" font-family="Consolas, Cascadia Mono, monospace" font-size="18" font-weight="700">
-      vpkdevs.github.io/vincent-kinney-portfolio
+      ${escapeXml(displayUrl)}
     </text>
   </svg>
 `)

@@ -2,8 +2,9 @@
 
 Public proof site for Vincent Kinney's AI-native product work, project catalog, and AI App Rescue Audit offer.
 
-- Live site: https://vpkdevs.github.io/vincent-kinney-portfolio/
-- Source: https://github.com/VpkDevs/vincent-kinney-portfolio
+- Live site: https://vpkdevs.github.io/website-vincent-kinney/
+- Source: https://github.com/VpkDevs/website-vincent-kinney
+- Deployment runbook: [DEPLOYMENT.md](./DEPLOYMENT.md) (extended customization guide: [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md))
 - Status: deployed, hardened, public; distribution and first paid audit are the next proof targets.
 
 ## What This Site Does
@@ -18,16 +19,16 @@ This is not just a visual portfolio. It is a public operating asset for turning 
 
 ## Tech Stack
 
-- Next.js 16
+- Next.js 16 (`^16.4.6`)
 - React 19
 - TypeScript 6
 - Tailwind CSS 3
 - Lucide React
-- Static export for GitHub Pages
+- Dual-target deployment: Vercel (Next.js) and GitHub Pages (static export)
 
 ## Local Development
 
-```powershell
+```bash
 npm install
 npm run dev
 ```
@@ -36,9 +37,9 @@ Open http://localhost:3000.
 
 ## Project Atlas Workflow
 
-The portfolio imports `data/projectAtlas.ts`. That file is generated from the broader project registry at `C:\Users\MQ420_OL\DEV\PROJECTS.md`.
+The portfolio imports `data/projectAtlas.ts`. That file is generated from the broader project registry (`PROJECTS.md`).
 
-```powershell
+```bash
 npm run generate:atlas
 ```
 
@@ -52,52 +53,57 @@ The generator:
 
 To use a different registry:
 
-```powershell
-$env:PROJECTS_REGISTRY="C:\path\to\PROJECTS.md"
-npm run generate:atlas
-Remove-Item Env:PROJECTS_REGISTRY
+```bash
+PROJECTS_REGISTRY=/path/to/PROJECTS.md npm run generate:atlas
 ```
 
-## Build
+## Build & Verification
 
-For a normal local build:
+Standard local / Vercel build:
 
-```powershell
-npm run generate:og
+```bash
 npm run check
 npm run build
 ```
 
-For the GitHub Pages export:
+GitHub Pages static export (writes to `out/` with `/website-vincent-kinney` base path):
 
-```powershell
-$env:GITHUB_PAGES="true"
-npm run build
-Remove-Item Env:GITHUB_PAGES
+```bash
+GITHUB_PAGES=true npm run build
+# or cross-platform:
+npm run build:pages
 ```
 
-The GitHub Pages build writes static assets to `out/` with the `/vincent-kinney-portfolio` base path.
+Root-path static export (for Netlify / Cloudflare Pages / static hosts):
+
+```bash
+npm run build:static
+```
+
+Full automated verification (typecheck + standard build + GitHub Pages export + `node:test` suite):
+
+```bash
+npm run verify
+```
 
 ## Social Preview
 
-The Open Graph image is generated from `public/og-atlas-background.png` with exact text rendered by `scripts/render-og-card.mjs`.
+The Open Graph image is generated from `public/og-atlas-background.png` with exact text rendered by `scripts/render-og-card.mjs` (requires a platform with native `sharp` binaries: Linux, macOS, or Windows).
 
-```powershell
+```bash
 npm run generate:og
 ```
 
-Launch copy is maintained in `docs/launch-kit.md`.
+Launch copy is maintained in [`docs/launch-kit.md`](./docs/launch-kit.md).
 
 ## Deployment
 
-The production site is currently published from the `gh-pages` branch because GitHub Actions was blocked by an account billing issue and the available Vercel token was invalid.
+See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for full verified step-by-step instructions covering:
 
-The practical deployment flow is:
-
-1. Build with `GITHUB_PAGES=true`.
-2. Copy `out/` to a `gh-pages` worktree.
-3. Commit and push the `gh-pages` branch.
-4. Verify the live URL returns HTTP 200.
+- **Vercel** (zero-config Next.js + `vercel.json` security headers)
+- **GitHub Pages** (`.github/workflows/deploy-pages.yml` automated deploy + manual `gh-pages` branch fallback)
+- **Static hosts** (`npm run build:static` -> `out/`)
+- **Environment variables** (documented in [`.env.example`](./.env.example))
 
 ## Contact Behavior
 
@@ -111,11 +117,12 @@ mailto:vincekinney1991@gmail.com?subject=AI%20App%20Rescue%20Audit
 
 ## Current Quality Bar
 
-- `npm audit` should report zero known vulnerabilities.
-- `npm run check` should pass TypeScript validation.
-- `GITHUB_PAGES=true npm run build` should complete successfully.
-- The live site should visibly include Public Proof, Project Atlas, and AI App Rescue Audit sections.
-- No copy should claim revenue, customers, or shipped products before those are true.
+- `npm audit` reports zero known vulnerabilities.
+- `npm run check` passes strict TypeScript validation.
+- Both `npm run build` (Vercel/Node) and `GITHUB_PAGES=true npm run build` (GitHub Pages) succeed cleanly.
+- `npm test` validates Project Atlas integrity, dual-target config, security headers, SEO metadata, and exported asset paths.
+- The live site visibly includes Public Proof, Project Atlas, and AI App Rescue Audit sections.
+- No copy claims revenue, customers, or shipped products before those are true.
 
 ## Next Proof Targets
 

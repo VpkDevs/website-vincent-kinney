@@ -1,8 +1,8 @@
 # Portfolio Launch Kit
 
-Live site: https://vpkdevs.github.io/vincent-kinney-portfolio/
+Live site: https://vpkdevs.github.io/website-vincent-kinney/
 
-Source: https://github.com/VpkDevs/vincent-kinney-portfolio
+Source: https://github.com/VpkDevs/website-vincent-kinney
 
 ## Honest Positioning
 
@@ -14,7 +14,7 @@ The portfolio is the first proof artifact: a live site with 131 project dossiers
 
 I finally pushed my portfolio live:
 
-https://vpkdevs.github.io/vincent-kinney-portfolio/
+https://vpkdevs.github.io/website-vincent-kinney/
 
 The honest context: I built a lot locally and did not ship enough publicly. I am correcting that.
 
@@ -31,7 +31,7 @@ I am opening a small number of discounted audits while I build more public proof
 
 Hey, I am turning a large local project backlog into public proof. The first artifact is live:
 
-https://vpkdevs.github.io/vincent-kinney-portfolio/
+https://vpkdevs.github.io/website-vincent-kinney/
 
 I am also opening a few AI App Rescue Audit slots. I review a stalled app, repo, or prototype and send back a practical ship plan: blockers, what to cut, positioning, monetization angle, and the next action.
 
@@ -49,7 +49,7 @@ I have a problem that I suspect a lot of builders using AI tools recognize: I ma
 
 I am correcting that in public. My first artifact is a live portfolio with a searchable atlas of 131 projects:
 
-https://vpkdevs.github.io/vincent-kinney-portfolio/
+https://vpkdevs.github.io/website-vincent-kinney/
 
 It is intentionally honest about what is live, what is still local, and what needs a next pass. I am also testing a small AI App Rescue Audit service for other builders with stalled apps or prototypes.
 

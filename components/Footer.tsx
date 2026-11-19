@@ -1,4 +1,5 @@
 import { Mail, GitBranch, ExternalLink, Rocket, Sparkles, Moon } from 'lucide-react'
+import { CONTACT_EMAIL, GITHUB_PROFILE_URL, REPO_URL } from '@/lib/site'
 
 export default function Footer() {
   return (
@@ -63,15 +64,15 @@ export default function Footer() {
           <div className="group">
             <h4 className="font-semibold text-text mb-5 group-hover:text-accent transition-colors text-sm uppercase">Connect</h4>
             <ul className="space-y-3">
-              <li><a href="mailto:vincekinney1991@gmail.com" className="text-sm text-text-secondary/80 hover:text-accent transition-all duration-300 inline-flex items-center gap-2">
+              <li><a href={`mailto:${CONTACT_EMAIL}`} className="text-sm text-text-secondary/80 hover:text-accent transition-all duration-300 inline-flex items-center gap-2">
                 <Mail size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 Email
               </a></li>
-              <li><a href="https://github.com/VpkDevs" target="_blank" rel="noopener noreferrer" className="text-sm text-text-secondary/80 hover:text-accent transition-all duration-300 inline-flex items-center gap-2">
+              <li><a href={GITHUB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-text-secondary/80 hover:text-accent transition-all duration-300 inline-flex items-center gap-2">
                 <GitBranch size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 GitHub
               </a></li>
-              <li><a href="https://github.com/VpkDevs/vincent-kinney-portfolio" target="_blank" rel="noopener noreferrer" className="text-sm text-text-secondary/80 hover:text-accent transition-all duration-300 inline-flex items-center gap-2">
+              <li><a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-text-secondary/80 hover:text-accent transition-all duration-300 inline-flex items-center gap-2">
                 <ExternalLink size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 Source
               </a></li>

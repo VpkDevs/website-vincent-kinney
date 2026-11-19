@@ -1,6 +1,6 @@
 # Portfolio Launch: Public Proof Begins
 
-Live site: https://vpkdevs.github.io/vincent-kinney-portfolio/
+Live site: https://vpkdevs.github.io/website-vincent-kinney/
 
 This is the first tagged public release of Vincent Kinney's portfolio and Project Atlas.
 

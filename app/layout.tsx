@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import { getAbsoluteAssetUrl, getSiteUrl } from '@/lib/site'
 
-const siteUrl = process.env.GITHUB_PAGES === 'true'
-  ? 'https://vpkdevs.github.io/vincent-kinney-portfolio/'
-  : 'https://vincentkinney.dev'
+const siteUrl = getSiteUrl()
+const ogImageUrl = getAbsoluteAssetUrl('og-card.png')
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-card.png',
+        url: ogImageUrl,
         width: 1200,
         height: 630,
         alt: 'Vincent Kinney portfolio: a dossier wall for the entire build surface.',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Vincent Kinney | AI-Native Product Architect',
     description: 'Public proof site, project atlas, and AI App Rescue Audit offer.',
-    images: ['/og-card.png'],
+    images: [ogImageUrl],
   },
 }
 
@@ -56,6 +56,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-surface text-text">
+        <noscript>
+          <style>{'.observe{opacity:1!important;transform:none!important;}'}</style>
+        </noscript>
         {children}
       </body>
     </html>

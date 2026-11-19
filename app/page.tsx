@@ -22,6 +22,7 @@ import Footer from '@/components/Footer'
 import ProjectCard from '@/components/ProjectCard'
 import ContactForm from '@/components/ContactForm'
 import { projectAtlas } from '@/data/projectAtlas'
+import { CONTACT_EMAIL, GITHUB_PAGES_URL, GITHUB_PROFILE_URL, REPO_URL } from '@/lib/site'
 
 export default function Home() {
   const [expandedProject, setExpandedProject] = useState<string | null>(null)
@@ -197,13 +198,13 @@ People who want games that respect their intelligence. People in recovery who se
       label: 'Live artifact',
       value: 'Portfolio deployed',
       detail: 'GitHub Pages is serving the hardened public site.',
-      href: 'https://vpkdevs.github.io/vincent-kinney-portfolio/'
+      href: GITHUB_PAGES_URL
     },
     {
       label: 'Source',
       value: 'Public repo',
       detail: 'Code, history, and static Pages branch are public.',
-      href: 'https://github.com/VpkDevs/vincent-kinney-portfolio'
+      href: REPO_URL
     },
     {
       label: 'Security posture',
@@ -737,18 +738,21 @@ People who want games that respect their intelligence. People in recovery who se
 
           {activeContactForm && (
             <div className="animate-fadeIn">
-              <ContactForm type={activeContactForm as 'partnership' | 'product' | 'general'} />
+              <ContactForm
+                key={activeContactForm}
+                type={activeContactForm as 'partnership' | 'product' | 'general'}
+              />
             </div>
           )}
 
           <div className="mt-12 pt-8 border-t border-border flex gap-6 justify-center flex-wrap">
-            <a href="mailto:vincekinney1991@gmail.com" className="text-text-secondary hover:text-accent transition-colors flex items-center gap-2">
+            <a href={`mailto:${CONTACT_EMAIL}`} className="text-text-secondary hover:text-accent transition-colors flex items-center gap-2">
               <Mail size={20} /> Email
             </a>
-            <a href="https://github.com/VpkDevs" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-accent transition-colors flex items-center gap-2">
+            <a href={GITHUB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-accent transition-colors flex items-center gap-2">
               <GitBranch size={20} /> GitHub
             </a>
-            <a href="https://github.com/VpkDevs/vincent-kinney-portfolio" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-accent transition-colors flex items-center gap-2">
+            <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-accent transition-colors flex items-center gap-2">
               <ExternalLink size={20} /> Source
             </a>
           </div>
